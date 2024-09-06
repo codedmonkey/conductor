@@ -18,6 +18,7 @@ class Kernel extends BaseKernel
 
         $container->import($configDir . '/conductor.{json,php,yaml}');
         $container->import($configDir . '/packages/*.yaml');
+        $container->import($configDir . '/packages/' . $this->environment . '/*.yaml');
         $container->import($configDir . '/services.yaml');
 
         if (isset($_SERVER['CONDUCTOR_IMAGE'])) {
