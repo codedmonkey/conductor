@@ -6,6 +6,7 @@ use CodedMonkey\Conductor\Doctrine\Entity\Registry;
 use CodedMonkey\Conductor\Doctrine\Entity\RegistryPackageMirroring;
 use CodedMonkey\Conductor\Doctrine\Repository\RegistryRepository;
 use CodedMonkey\Conductor\EasyAdmin\DateIntervalField;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -18,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+#[AdminCrud(routePath: '/registries')]
 class DashboardRegistryController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

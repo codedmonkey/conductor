@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: CodedMonkey\Conductor\Controller
     type: attribute
+
+easyadmin:
+    resource: .
+    type: easyadmin.routes

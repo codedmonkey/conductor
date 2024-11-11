@@ -53,7 +53,9 @@ class DashboardRootController extends AbstractDashboardController
             $packagesItem->getAsDto()->setSelected(true);
         }
 
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        // todo revert when EasyAdmin bug is fixed: https://github.com/EasyCorp/EasyAdminBundle/issues/6523
+        //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToRoute('Dashboard', 'fa fa-home', 'dashboard');
         yield $packagesItem;
 
         yield MenuItem::section('Personal');

@@ -33,7 +33,7 @@ class DashboardPackagesController extends AbstractController
     ) {
     }
 
-    #[Route('/dashboard/packages', name: 'dashboard_packages')]
+    #[Route('/packages', name: 'dashboard_packages')]
     #[IsGrantedAccess]
     public function list(Request $request): Response
     {
@@ -56,7 +56,7 @@ class DashboardPackagesController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/packages/info/{packageName}/{packageVersion}', name: 'dashboard_packages_info', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
+    #[Route('/packages/info/{packageName}/{packageVersion}', name: 'dashboard_packages_info', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
     #[IsGrantedAccess]
     public function info(string $packageName, ?string $packageVersion = null): Response
     {
@@ -94,7 +94,7 @@ class DashboardPackagesController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/packages/versions/{packageName}', name: 'dashboard_packages_versions', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
+    #[Route('/packages/versions/{packageName}', name: 'dashboard_packages_versions', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
     #[IsGrantedAccess]
     public function versions(string $packageName): Response
     {
@@ -109,7 +109,7 @@ class DashboardPackagesController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/packages/add-mirroring', name: 'dashboard_packages_add_mirroring')]
+    #[Route('/packages/add-mirroring', name: 'dashboard_packages_add_mirroring')]
     #[IsGranted('ROLE_ADMIN')]
     public function addMirror(Request $request): Response
     {
@@ -170,7 +170,7 @@ class DashboardPackagesController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/packages/add-vcs', name: 'dashboard_packages_add_vcs')]
+    #[Route('/packages/add-vcs', name: 'dashboard_packages_add_vcs')]
     #[IsGranted('ROLE_ADMIN')]
     public function addVcsRepository(Request $request): Response
     {
@@ -204,7 +204,7 @@ class DashboardPackagesController extends AbstractController
         return $this->redirect($this->adminUrlGenerator->setRoute('dashboard_packages_info', ['packageName' => $package->getName()])->generateUrl());
     }
 
-    #[Route('/dashboard/packages/delete/{packageName}', name: 'dashboard_packages_delete', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
+    #[Route('/packages/delete/{packageName}', name: 'dashboard_packages_delete', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(string $packageName): Response
     {
