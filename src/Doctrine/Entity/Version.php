@@ -3,6 +3,7 @@
 namespace CodedMonkey\Conductor\Doctrine\Entity;
 
 use CodedMonkey\Conductor\Doctrine\Repository\VersionRepository;
+use Composer\Package\PackageInterface as ComposerPackageInterface;
 use Composer\Package\Version\VersionParser;
 use Composer\Pcre\Preg;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -588,6 +589,11 @@ class Version
         $url = preg_replace('#^https?://#', '', $url);
 
         return $url;
+    }
+
+    public function fromComposerPackage(ComposerPackageInterface $composerPackage): void
+    {
+
     }
 
     public function toComposerArray(): array
