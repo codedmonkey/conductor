@@ -109,6 +109,21 @@ class DashboardPackagesController extends AbstractController
         ]);
     }
 
+    #[Route('/dashboard/packages/statistics/{packageName}', name: 'dashboard_packages_statistics', requirements: ['packageName' => '[a-z0-9_.-]+/[a-z0-9_.-]+'])]
+    #[IsGrantedAccess]
+    public function statistics(string $packageName): Response
+    {
+        $package = $this->packageRepository->findOneBy(['name' => $packageName]);
+        $versions = $package->getVersions()->toArray();
+
+        usort($versions, Package::class . '::sortVersions');
+
+        return $this->render('dashboard/packages/package_statistics.html.twig', [
+            'package' => $package,
+            'versions' => $versions,
+        ]);
+    }
+
     #[Route('/dashboard/packages/add-mirroring', name: 'dashboard_packages_add_mirroring')]
     #[IsGranted('ROLE_ADMIN')]
     public function addMirror(Request $request): Response
