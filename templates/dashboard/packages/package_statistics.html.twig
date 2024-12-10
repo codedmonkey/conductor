@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}{{ package.name }}{% endblock %}
+
+{% block search_wrapper %}
+  {% include 'dashboard/packages/search_box.html.twig' with {searchAutofocus: false} %}
+{% endblock %}
+
+{% block page_content %}
+  {% include 'dashboard/packages/package_header.html.twig' with {currentPage: 'statistics'} %}
+
+    <div data-controller="chart" data-chart-data-value="{{ package.installations.data|json_encode|escape }}"><canvas data-chart-target="canvas"></canvas></div>
+{% endblock %}
