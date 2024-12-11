@@ -17,6 +17,16 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     continue-on-error: false
 
+    services:
+      database:
+        image: postgres:16-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: conductor
+          POSTGRES_PASSWORD: "!ChangeMe!"
+          POSTGRES_USER: conductor
+
     strategy:
       matrix:
         operating-system: ["ubuntu-latest"]
@@ -56,6 +66,12 @@ jobs:
 
       - name: Install dependencies
         run: composer install --ansi --no-interaction --no-progress
+
+      - name: Create database schema
+        run: bin/console doctrine:schema:create --force
+
+      - name: Load database fixtures
+        run: bin/console doctrine:fixtures:load --no-interaction
 
       - name: PHPUnit version
         run: bin/phpunit --version
