@@ -4,6 +4,7 @@ namespace CodedMonkey\Conductor\Form;
 
 use CodedMonkey\Conductor\Doctrine\Entity\Credentials;
 use CodedMonkey\Conductor\Doctrine\Entity\Package;
+use CodedMonkey\Conductor\Doctrine\Entity\PackageFetchStrategy;
 use CodedMonkey\Conductor\Doctrine\Entity\Registry;
 use CodedMonkey\Conductor\Doctrine\Repository\RegistryRepository;
 use CodedMonkey\Conductor\Package\PackageVcsRepositoryValidator;
@@ -11,6 +12,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PostSetDataEvent;
 use Symfony\Component\Form\Event\SubmitEvent;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -56,7 +59,6 @@ class PackageFormType extends AbstractType
             $form
                 ->add('repositoryUrl', TextType::class, [
                     'disabled' => true,
-                    'data' => $package->getDefaultVersion()->getSource()['url'] ?? null,
                     'help' => 'The repository URL is automatically retrieved from the mirror registry. Remove the mirror registry first.',
                 ])
                 ->add('mirrorRegistry', EntityType::class, [
@@ -67,6 +69,14 @@ class PackageFormType extends AbstractType
                             ->where('registry.id = :id')
                             ->setParameter('id', $package->getMirrorRegistry()->getId());
                     },
+                ])
+                ->add('fetchStrategy', EnumType::class, [
+                    'class' => PackageFetchStrategy::class,
+                    'expanded' => true,
+                    'disabled' => !$package->getRepositoryUrl(),
+                    'choice_label' => function (PackageFetchStrategy $choice): string {
+                        return "package.fetch_strategy.{$choice->value}";
+                    },
                 ]);
         }
     }
@@ -76,10 +86,6 @@ class PackageFormType extends AbstractType
         $form = $event->getForm();
         /** @var Package $package */
         $package = $event->getData();
-
-        if (null === $package->getRepositoryUrl()) {
-
-        }
 
         $validationResult = $this->vcsRepositoryValidator->validate($package);
 

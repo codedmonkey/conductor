@@ -4,6 +4,7 @@ namespace CodedMonkey\Conductor\Controller;
 
 use CodedMonkey\Conductor\Attribute\IsGrantedAccess;
 use CodedMonkey\Conductor\Doctrine\Entity\Package;
+use CodedMonkey\Conductor\Doctrine\Entity\PackageFetchStrategy;
 use CodedMonkey\Conductor\Doctrine\Repository\PackageRepository;
 use CodedMonkey\Conductor\Doctrine\Repository\VersionRepository;
 use CodedMonkey\Conductor\Message\TrackInstallations;
@@ -157,10 +158,12 @@ class ApiController extends AbstractController
 
     private function findPackage(string $packageName): ?Package
     {
+        // Search for the package in the database
         if (null !== $package = $this->packageRepository->findOneBy(['name' => $packageName])) {
             return $package;
         }
 
+        // Attempt to find a package from external registries
         if (null === $registry = $this->metadataResolver->findPackageProvider($packageName)) {
             return null;
         }
@@ -168,6 +171,7 @@ class ApiController extends AbstractController
         $package = new Package();
         $package->setName($packageName);
         $package->setMirrorRegistry($registry);
+        $package->setFetchStrategy(PackageFetchStrategy::Mirror);
 
         $this->packageRepository->save($package, true);
 

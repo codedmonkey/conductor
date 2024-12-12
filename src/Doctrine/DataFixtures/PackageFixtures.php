@@ -3,6 +3,7 @@
 namespace CodedMonkey\Conductor\Doctrine\DataFixtures;
 
 use CodedMonkey\Conductor\Doctrine\Entity\Package;
+use CodedMonkey\Conductor\Doctrine\Entity\PackageFetchStrategy;
 use CodedMonkey\Conductor\Package\PackageMetadataResolver;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -21,6 +22,7 @@ class PackageFixtures extends Fixture
 
             $package->setName($packageData['name']);
             $package->setRepositoryUrl($packageData['repositoryUrl']);
+            $package->setFetchStrategy(PackageFetchStrategy::Vcs);
 
             $manager->persist($package);
             $manager->flush();
