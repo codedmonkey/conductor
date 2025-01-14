@@ -1,5 +1,9 @@
 # Conductor
 
+**Conductor has been renamed to [Dirigent](https://dirigent.dev). Development has moved to [codedmonkey/dirigent](https://github.com/codedmonkey/dirigent).**
+
+---
+
 A free and open package registry for [Composer][composer], a package manager primarily used for managing and installing
 dependencies in [PHP][php].
 
